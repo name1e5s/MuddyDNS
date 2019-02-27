@@ -149,6 +149,5 @@ func (response Response) toBytes() []byte {
 	buffer.Write(response.QUESTION.toBytes())
 	buffer.Write(response.RR.toBytes())
 
-	log.Println(response.QUESTION.QNAME)
 	return buffer.Bytes()
 }
