@@ -16,6 +16,11 @@ func main() {
 	flag.StringVar(&harmonyPath, "f", "./example", "harmony file path")
 	flag.Parse()
 
+	// Show Logo
+	log.Println("░█▄█░█░█░█▀▄░█▀▄░█░█░█▀▄░█▀█░█▀▀")
+	log.Println("░█░█░█░█░█░█░█░█░░█░░█░█░█░█░▀▀█")
+	log.Println("░▀░▀░▀▀▀░▀▀░░▀▀░░░▀░░▀▀░░▀░▀░▀▀▀")
+
 	// Loading file
 	harmonyList := server.LoadConfig(harmonyPath)
 	log.Println(harmonyList)

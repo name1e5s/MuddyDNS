@@ -1,7 +1,10 @@
-# MuddyDNS
+░█▄█░█░█░█▀▄░█▀▄░█░█░█▀▄░█▀█░█▀▀
+░█░█░█░█░█░█░█░█░░█░░█░█░█░█░▀▀█
+░▀░▀░▀▀▀░▀▀░░▀▀░░░▀░░▀▀░░▀░▀░▀▀▀
+
 Course Project of Computer Networks.(W.I.P)
 
-# Build
+### Build
 Just type
 ```bash
 go get github.com/name1e5s/MuddyDNS
@@ -9,7 +12,7 @@ go get github.com/name1e5s/MuddyDNS
 
 and use `go build` to build the project.
 
-# Test whether it works
+### Test whether it works
 
 Run the program and use dig to do the test.
 
@@ -40,5 +43,11 @@ baidu.com.              67      IN      A       220.181.57.216
 ;; SERVER: 127.0.0.1#11451(127.0.0.1)
 ;; WHEN: Wed Feb 27 00:17:23 CST 2019
 ;; MSG SIZE  rcvd: 70
-
 ```
+
+### TODO
+- [ ] RFC 2136 - DNS Update
+
+- [ ] Test And Benchmark Utility
+
+- [ ] Explain how the project works to others (A HEAVY task :)
