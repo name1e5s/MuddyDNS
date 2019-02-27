@@ -7,7 +7,7 @@ import (
 )
 
 func ForwardRequest(data []byte, server string) []byte {
-	socket, err := net.DialUDP("udp4", nil,
+	socket, err := net.DialUDP("udp", nil,
 		&net.UDPAddr{
 			IP:   net.ParseIP(server),
 			Port: 53, // Default DNS port
@@ -19,7 +19,7 @@ func ForwardRequest(data []byte, server string) []byte {
 	}
 
 	// Error? What error?
-	_ = socket.SetDeadline(time.Now().Add(time.Duration(time.Second * 3)))
+	_ = socket.SetDeadline(time.Now().Add(time.Duration(time.Millisecond * 300)))
 	defer socket.Close()
 
 	_, err = socket.Write(data)
@@ -32,7 +32,7 @@ func ForwardRequest(data []byte, server string) []byte {
 
 	num, addr, err := socket.ReadFromUDP(receive)
 	if err != nil {
-		log.Println("Read data from ", addr, "failed!")
+		log.Print("Read data from ", addr, " failed: ",err)
 		return nil // Failed
 	}
 	return receive[:num]
