@@ -2,7 +2,7 @@ package server
 
 import (
 	"bufio"
-	"github.com/name1e5s/socialismDNS/utils"
+	"github.com/name1e5s/MuddyDNS/utils"
 	"log"
 	"os"
 	"strings"

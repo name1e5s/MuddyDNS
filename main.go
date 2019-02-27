@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"github.com/name1e5s/socialismDNS/server"
+	"github.com/name1e5s/MuddyDNS/server"
 	"log"
 	"net"
 )

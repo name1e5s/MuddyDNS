@@ -1,10 +1,10 @@
-# socialismDNS
+# MuddyDNS
 Course Project of Computer Networks.(W.I.P)
 
 # Build
 Just type
 ```bash
-go get github.com/name1e5s/socialismDNS
+go get github.com/name1e5s/MuddyDNS
 ```
 
 and use `go build` to build the project.
@@ -14,11 +14,11 @@ and use `go build` to build the project.
 Run the program and use dig to do the test.
 
 ```bash
-name1e5s@asgard:~/g/s/g/n/socialismDNS$ ./socialismDNS -p 11451 &
+name1e5s@asgard:~/g/s/g/n/MuddyDNS$ ./MuddyDNS -p 11451 &
 [1] 1338
-name1e5s@asgard:~/g/s/g/n/socialismDNS$ 2019/02/27 00:17:14 Listening: [::]:11451
+name1e5s@asgard:~/g/s/g/n/MuddyDNS$ 2019/02/27 00:17:14 Listening: [::]:11451
 
-name1e5s@asgard:~/g/s/g/n/socialismDNS$ dig baidu.com  @127.0.0.1 -p 11451
+name1e5s@asgard:~/g/s/g/n/MuddyDNS$ dig baidu.com  @127.0.0.1 -p 11451
 2019/02/27 00:17:23 Forward baidu.com to 114.114.114.114
 
 ; <<>> DiG 9.11.3-1ubuntu1.5-Ubuntu <<>> baidu.com @127.0.0.1 -p 11451

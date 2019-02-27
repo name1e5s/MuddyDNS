@@ -5,7 +5,7 @@
 package server
 
 import (
-	"github.com/name1e5s/socialismDNS/utils"
+	"github.com/name1e5s/MuddyDNS/utils"
 )
 
 // OpCode defines some different operations types
