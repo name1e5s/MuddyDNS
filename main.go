@@ -10,9 +10,15 @@ import (
 func main() {
 	var remote string
 	var port int
+	var harmonyPath string
 	flag.StringVar(&remote, "r", "114.114.114.114", "forward DNS server address, default as 114.114.114.114")
 	flag.IntVar(&port, "p", 53, "server port, default as 53")
+	flag.StringVar(&harmonyPath, "f", "./example", "harmony file path")
 	flag.Parse()
+
+	// Loading file
+	harmonyList := server.LoadConfig(harmonyPath)
+	log.Println(harmonyList)
 
 	// Listen to the default port
 	listener, err := net.ListenUDP("udp", &net.UDPAddr{IP: net.ParseIP("0.0.0.0"), Port: port})
@@ -27,12 +33,10 @@ func main() {
 	// Forwarding the request to remote server...
 	for {
 		n, addr, err := listener.ReadFromUDP(data)
-		question := server.GetQuestion(data[:n])
 		if err != nil {
 			log.Printf("error: %s", err)
 		}
-		log.Printf("Forward %s to %s", question.QNAMEToString(), remote)
-		_, writeErr := listener.WriteToUDP(server.ForwardRequest(data[:n], remote), addr)
+		_, writeErr := listener.WriteToUDP(server.LocalResolv(data[:n], remote, harmonyList), addr)
 		if writeErr != nil {
 			log.Printf("error: %s", writeErr)
 		}

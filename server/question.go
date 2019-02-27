@@ -25,11 +25,14 @@ type Question struct {
 
 func GetQuestion(data []byte) Question {
 	// Here the data contains a Header.
-	length := len(data)
+	length := 12
+	for data[length] != 0 {
+		length++
+	}
 	return Question{
-		QNAME:  data[12 : length-4],
-		QTYPE:  data[length-4 : length-2],
-		QCLASS: data[length-2:],
+		QNAME:  data[12 : length+1],
+		QTYPE:  data[length+1 : length+3],
+		QCLASS: data[length+3 : length+5],
 	}
 }
 
@@ -41,12 +44,12 @@ func (question Question) toBytes() []byte {
 	return buffer.Bytes()
 }
 
+// each label consists of a length octet followed by that
+// number of octets. The domain name terminates with the
+// zero length octet for the null label of the root.  Note
 // QNAMEToString converts the QNAME to a string.
 //
 // QNAME is a domain name represented as a sequence of labels, where
-// each label consists of a length octet followed by that
-// number of octets.  The domain name terminates with the
-// zero length octet for the null label of the root.  Note
 // that this field may be an odd number of octets; no
 // padding is used.
 func (question Question) QNAMEToString() string {

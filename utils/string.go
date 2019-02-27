@@ -1,6 +1,10 @@
 package utils
 
-import "regexp"
+import (
+	"regexp"
+	"strconv"
+	"strings"
+)
 
 // Use regular expression to match the IPv4 addresses.
 // Ref: https://www.hackerrank.com/challenges/java-regex/forum
@@ -12,6 +16,18 @@ func IsIP(str string) bool {
 // Use regular expression to match the domain name.
 // Ref: https://stackoverflow.com/questions/10306690/what-is-a-regular-expression-which-will-match-a-valid-domain-name-without-a-subd
 func IsDomainName(str string) bool {
-	regex := regexp.MustCompile(`^(?=.{1,253}\.?$)(?:(?!-|[^.]+_)[A-Za-z0-9-_]{1,63}(?<!-)(?:\.|$)){2,}$`)
+	regex := regexp.MustCompile(`^[[:alnum:]][[:alnum:]\-]{0,61}[[:alnum:]]|[[:alpha:]]$`)
 	return regex.MatchString(str)
+}
+
+func IpToBytes(ip string) []byte {
+	temp := strings.Split(ip, ".")
+	a, _ := strconv.Atoi(temp[0])
+	b, _ := strconv.Atoi(temp[1])
+	c, _ := strconv.Atoi(temp[2])
+	d, _ := strconv.Atoi(temp[3])
+
+	return []byte{
+		byte(a), byte(b), byte(c), byte(d),
+	}
 }
