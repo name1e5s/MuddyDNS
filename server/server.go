@@ -32,7 +32,7 @@ func ForwardRequest(data []byte, server string) []byte {
 
 	num, addr, err := socket.ReadFromUDP(receive)
 	if err != nil {
-		log.Print("Read data from ", addr, " failed: ",err)
+		log.Print("Read data from ", addr, " failed: ", err)
 		return nil // Failed
 	}
 	return receive[:num]

@@ -39,7 +39,7 @@ func LocalResolv(rawdata []byte, remote string, harmonyList DNSList) []byte {
 	question := GetQuestion(rawdata)
 	qnameStr := question.QNAMEToString()
 	if harmonyList == nil || harmonyList[qnameStr] == "" {
-		log.Printf("Forward request for %s to %s.\n",qnameStr,remote)
+		log.Printf("Forward request for %s to %s.\n", qnameStr, remote)
 		return ForwardRequest(rawdata, remote) // A "harmonic" domain name.
 	}
 
