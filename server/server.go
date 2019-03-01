@@ -19,7 +19,7 @@ func ForwardRequest(data []byte, server string) []byte {
 	}
 
 	// Error? What error?
-	_ = socket.SetDeadline(time.Now().Add(time.Duration(time.Millisecond * 300)))
+	_ = socket.SetDeadline(time.Now().Add(time.Duration(time.Second * 2)))
 	defer socket.Close()
 
 	_, err = socket.Write(data)
@@ -33,7 +33,7 @@ func ForwardRequest(data []byte, server string) []byte {
 	num, addr, err := socket.ReadFromUDP(receive)
 	if err != nil {
 		log.Print("Read data from ", addr, " failed: ", err)
-		return nil // Failed
+		return nil
 	}
 	return receive[:num]
 }

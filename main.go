@@ -7,11 +7,18 @@ import (
 	"net"
 )
 
+type receivedData struct {
+	addr *net.UDPAddr
+	data []byte
+}
+
+var remote string
+var port int
+var harmonyPath string
+var harmonyList server.DNSList
+
 func main() {
-	var remote string
-	var port int
-	var harmonyPath string
-	flag.StringVar(&remote, "r", "114.114.114.114", "forward DNS server address, default as 114.114.114.114")
+	flag.StringVar(&remote, "r", "10.3.9.5", "forward DNS server address, default as 10.3.9.5")
 	flag.IntVar(&port, "p", 53, "server port, default as 53")
 	flag.StringVar(&harmonyPath, "f", "./example", "harmony file path")
 	flag.Parse()
@@ -22,7 +29,7 @@ func main() {
 	log.Println("░▀░▀░▀▀▀░▀▀░░▀▀░░░▀░░▀▀░░▀░▀░▀▀▀")
 
 	// Loading file
-	harmonyList := server.LoadConfig(harmonyPath)
+	harmonyList = server.LoadConfig(harmonyPath)
 	log.Println(harmonyList)
 
 	// Listen to the default port
@@ -33,18 +40,31 @@ func main() {
 	}
 	defer listener.Close()
 	log.Println("Listening: " + listener.LocalAddr().String())
-
-	data := make([]byte, 1024)
+	received := readUDP(listener)
 	// Forwarding the request to remote server...
 	for {
-		n, addr, err := listener.ReadFromUDP(data)
-		if err != nil {
-			log.Printf("error: %s", err)
-		}
-		_, writeErr := listener.WriteToUDP(server.LocalResolv(data[:n], remote, harmonyList), addr)
-		if writeErr != nil {
-			log.Printf("error: %s", writeErr)
-		}
+		go writeUDP(listener, <-received)
+	}
+}
 
+func readUDP(conn *net.UDPConn) chan receivedData {
+	ch := make(chan receivedData)
+	data := make([]byte, 1024)
+	go func() {
+		for {
+			n, addr, err := conn.ReadFromUDP(data)
+			if err != nil {
+				log.Printf("error: %s", err)
+			}
+			ch <- receivedData{addr, data[:n]}
+		}
+	}()
+	return ch
+}
+
+func writeUDP(conn *net.UDPConn, data receivedData) {
+	_, writeErr := conn.WriteToUDP(server.LocalResolv(data.data, remote, harmonyList), data.addr)
+	if writeErr != nil {
+		log.Printf("error: %s", writeErr)
 	}
 }
