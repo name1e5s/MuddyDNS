@@ -14,7 +14,6 @@ func IsIP(str string) bool {
 }
 
 // Use regular expression to match the domain name.
-// Ref: https://stackoverflow.com/questions/10306690/what-is-a-regular-expression-which-will-match-a-valid-domain-name-without-a-subd
 func IsDomainName(str string) bool {
 	regex := regexp.MustCompile(`^[[:alnum:]][[:alnum:]\-]{0,61}[[:alnum:]]|[[:alpha:]]$`)
 	return regex.MatchString(str)

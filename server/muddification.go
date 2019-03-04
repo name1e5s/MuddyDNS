@@ -80,7 +80,7 @@ func LocalResolv(rawdata []byte, remote string, harmonyList DNSList) []byte {
 				ARCOUNT:      0,
 			},
 			QUESTION: question,
-			RR: ResourceRecord{
+			RR: ResourceRecord{ 
 				NAME: []byte{0xc0, 0x0c}, // Points to QNAME in Question Section.
 				// Ref: https://tools.ietf.org/html/rfc1035#section-4.1.4
 				TYPE:     TypeA,
