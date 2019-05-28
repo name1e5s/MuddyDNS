@@ -13,3 +13,12 @@
 
 # GoLand
 .idea/*
+
+# LaTeX
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.gz
+*.toc
