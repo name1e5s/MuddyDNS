@@ -11,6 +11,10 @@ func BytesToUInt16(bytes []byte) uint16 {
 	return binary.BigEndian.Uint16(bytes)
 }
 
+func BytesToUInt32(bytes []byte) uint32 {
+	return binary.BigEndian.Uint32(bytes)
+}
+
 func UInt16ToBytes(data uint16) (byte, byte) {
 	buffer := make([]byte, 2)
 	binary.BigEndian.PutUint16(buffer, data)

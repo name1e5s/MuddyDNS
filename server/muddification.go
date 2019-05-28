@@ -25,7 +25,7 @@ func LoadConfig(path string) (harmonyList DNSList) {
 		strarr := strings.Split(line, " ")
 		if len(strarr) == 2 {
 			if utils.IsDomainName(strarr[1]) && utils.IsIP(strarr[0]) {
-				harmonyList[strarr[1]] = strarr[0]
+				harmonyList[strings.ToLower(strarr[1])] = strarr[0]
 			}
 		}
 	}
@@ -37,7 +37,7 @@ func LoadConfig(path string) (harmonyList DNSList) {
 func LocalResolv(rawdata []byte, remote string, harmonyList DNSList) []byte {
 	header := GetHeader(rawdata)
 	question := GetQuestion(rawdata)
-	qnameStr := question.QNAMEToString()
+	qnameStr := strings.ToLower(question.QNAMEToString())
 	if harmonyList == nil || harmonyList[qnameStr] == "" {
 		log.Printf("Forward request for %s to %s.\n", qnameStr, remote)
 		return ForwardRequest(rawdata, remote) // A "harmonic" domain name.
@@ -80,7 +80,7 @@ func LocalResolv(rawdata []byte, remote string, harmonyList DNSList) []byte {
 				ARCOUNT:      0,
 			},
 			QUESTION: question,
-			RR: ResourceRecord{ 
+			RR: ResourceRecord{
 				NAME: []byte{0xc0, 0x0c}, // Points to QNAME in Question Section.
 				// Ref: https://tools.ietf.org/html/rfc1035#section-4.1.4
 				TYPE:     TypeA,
