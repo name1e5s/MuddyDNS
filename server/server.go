@@ -31,7 +31,7 @@ func ForwardRequest(data []byte, server string) []byte {
 	receive := make([]byte, 4*1024)
 
 	num, addr, err := socket.ReadFromUDP(receive)
-	if err != nil {
+	if err != nil || num < 0 {
 		log.Print("Read data from ", addr, " failed: ", err)
 		return nil
 	}

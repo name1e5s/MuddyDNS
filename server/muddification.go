@@ -22,7 +22,7 @@ func LoadConfig(path string) (harmonyList DNSList) {
 	fileScanner := bufio.NewScanner(harmonyFile)
 	for fileScanner.Scan() {
 		line := fileScanner.Text()
-		strarr := strings.Split(line, " ")
+		strarr := strings.Fields(line)
 		if len(strarr) == 2 {
 			if utils.IsDomainName(strarr[1]) && utils.IsIP(strarr[0]) {
 				harmonyList[strings.ToLower(strarr[1])] = strarr[0]
@@ -38,11 +38,10 @@ func LocalResolv(rawdata []byte, remote string, harmonyList DNSList) []byte {
 	header := GetHeader(rawdata)
 	question := GetQuestion(rawdata)
 	qnameStr := strings.ToLower(question.QNAMEToString())
-	if harmonyList == nil || harmonyList[qnameStr] == "" {
+	if utils.BytesToUInt16(question.QTYPE) != uint16(1) || harmonyList == nil || harmonyList[qnameStr] == "" {
 		log.Printf("Forward request for %s to %s.\n", qnameStr, remote)
 		return ForwardRequest(rawdata, remote) // A "harmonic" domain name.
 	}
-
 	if harmonyList[qnameStr] == "0.0.0.0" {
 		log.Println("Illegal domain name!")
 		header := Header{

@@ -41,6 +41,7 @@ func main() {
 	defer listener.Close()
 	log.Println("Listening: " + listener.LocalAddr().String())
 	received := readUDP(listener)
+	defer close(received)
 	// Forwarding the request to remote server...
 	for {
 		go writeUDP(listener, <-received)
@@ -49,14 +50,15 @@ func main() {
 
 func readUDP(conn *net.UDPConn) chan receivedData {
 	ch := make(chan receivedData)
-	data := make([]byte, 1024)
 	go func() {
 		for {
+			data := make([]byte, 65536)
 			n, addr, err := conn.ReadFromUDP(data)
 			if err != nil {
 				log.Printf("error: %s", err)
 			}
-			ch <- receivedData{addr, data[:n]}
+			qry := receivedData{addr, data[:n]}
+			ch <- qry
 		}
 	}()
 	return ch
