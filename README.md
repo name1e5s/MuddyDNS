@@ -45,10 +45,3 @@ baidu.com.              67      IN      A       220.181.57.216
 ;; WHEN: Wed Feb 27 00:17:23 CST 2019
 ;; MSG SIZE  rcvd: 70
 ```
-
-### TODO
-- [ ] RFC 2136 - DNS Update
-
-- [ ] Test And Benchmark Utility
-
-- [ ] Explain how the project works to others (A HEAVY task :)
