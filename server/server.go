@@ -1,7 +1,7 @@
 package server
 
 import (
-	"log"
+	log "github.com/sirupsen/logrus"
 	"net"
 	"time"
 )
@@ -14,17 +14,23 @@ func ForwardRequest(data []byte, server string) []byte {
 		})
 
 	if err != nil {
-		log.Println("Connection failed!")
+		log.Error("Connection failed!")
 		return nil // Failed
 	}
 
 	// Error? What error?
 	_ = socket.SetDeadline(time.Now().Add(time.Duration(time.Second * 2)))
-	defer socket.Close()
+
+	defer func() {
+		err := socket.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
 
 	_, err = socket.Write(data)
 	if err != nil {
-		log.Println("Send data failed!")
+		log.Error("Send data failed!")
 		return nil // Failed
 	}
 
@@ -32,7 +38,7 @@ func ForwardRequest(data []byte, server string) []byte {
 
 	num, addr, err := socket.ReadFromUDP(receive)
 	if err != nil || num < 0 {
-		log.Print("Read data from ", addr, " failed: ", err)
+		log.Debug("Read data from ", addr, " failed: ", err)
 		return nil
 	}
 	return receive[:num]
