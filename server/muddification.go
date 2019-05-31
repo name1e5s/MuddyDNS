@@ -35,6 +35,8 @@ func LoadConfig(path string) (harmonyList DNSList) {
 		if len(strarr) == 2 {
 			if utils.IsDomainName(strarr[1]) && utils.IsIP(strarr[0]) {
 				harmonyList[strings.ToLower(strarr[1])] = strarr[0]
+			} else {
+				log.Warnf("Wrong config format: %s", line)
 			}
 		}
 	}
@@ -55,7 +57,7 @@ func LocalResolv(addr *net.UDPAddr, rawdata []byte, remote string, harmonyList D
 		return ForwardRequest(rawdata, remote) // A "harmonic" domain name.
 	}
 	if harmonyList[qnameStr] == "0.0.0.0" {
-		log.Info("Illegal domain name: ", qnameStr)
+		log.Warn("Illegal domain name: ", qnameStr)
 		header := Header{
 			ID:           header.ID,
 			QR:           true,

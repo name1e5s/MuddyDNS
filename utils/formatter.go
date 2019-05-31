@@ -31,13 +31,13 @@ type Formatter struct {
 }
 
 var levelMap = map[string]string{
-	"TRACE": "TRAC",
-	"DEBUG": "DEBG",
-	"INFO":  "INFO",
-	"WARN":  "WARN",
-	"ERROR": "EROR",
-	"FATAL": "FATA",
-	"PANIC": "PNIC",
+	"TRACE":   "TRAC",
+	"DEBUG":   "DEBG",
+	"INFO":    "INFO",
+	"WARNING": "WARN",
+	"ERROR":   "EROR",
+	"FATAL":   "FATA",
+	"PANIC":   "PNIC",
 }
 
 // Format log message.

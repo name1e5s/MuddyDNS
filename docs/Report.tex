@@ -213,7 +213,7 @@ type Response struct {
 
 \paragraph{func LocalResolv(rawdata []byte, remote string, harmonyList DNSList) []byte} 进行地址解析。实现在该服务器进行查找，并且能告知管理员有客户端试图查询非法域名，若在该服务器找不到域名对应的 IP 则向远程服务器请求。首先利用 GetHeader 函数得到原数据的头，之后利用 GetQuestion 和 QNAMEToString 函数获得客户机询问的域名，并将之转化为字符串。之后根据该字符串我们进行查找。首先判断对应表是否为空，若为空或者我们未在表中查到该域名的IP则调用 FowardRequest 函数询问远程服务器。若我们查到该域名对应 IP 为 0.0.0.0，则认为域名非法，构造 ResponseCode 部分为查询域名不存在的应答报文头。若查询到正常域名，则构造 ResponseCode 部分为查询域名无错的应答报文，并将之返回。
 
-\subsection{工具模块(utils)}
+\subsubsection{工具模块(utils)}
 该模块为其余模块需要用到的工具函数的集合，其函数调用图见图~\ref{call_utils}~。可见该模块内的函数完全是互相独立的。
 
 \begin{figure}[!htbp]
@@ -235,6 +235,7 @@ type Response struct {
 
 \paragraph{func IpToBytes(ip string) []byte} 实现IP地址与字节的转换。
 
+\paragraph{formatter.go} 该文件内主要是对 logrus 库提供的 logger 进行的定制，与项目主体关系不大，故不展开叙述。
 \newpage
 
 \section{运行结果}
