@@ -3,7 +3,7 @@
 ░█░█░█░█░█░█░█░█░░█░░█░█░█░█░▀▀█  
 ░▀░▀░▀▀▀░▀▀░░▀▀░░░▀░░▀▀░░▀░▀░▀▀▀  
 ```
-Course Project of Computer Networks.(W.I.P)
+Course Project of Computer Networks.
 
 ### Build
 Just type
