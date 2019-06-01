@@ -50,7 +50,7 @@ func LocalResolv(addr *net.UDPAddr, rawdata []byte, remote string, harmonyList D
 	header := GetHeader(rawdata)
 	question := GetQuestion(rawdata)
 	qnameStr := strings.ToLower(question.QNAMEToString())
-	log.Debugf("Get new package with ID 0x%02x", header.ID)
+	log.Debugf("Get new package with ID 0x%04x", header.ID)
 	log.Trace("Get new query package for " + qnameStr + " from " + addr.String())
 	if utils.BytesToUInt16(question.QTYPE) != uint16(1) || harmonyList == nil || harmonyList[qnameStr] == "" {
 		log.Debugf("Forward request for %s to %s.", qnameStr, remote)
