@@ -52,10 +52,6 @@ func LocalResolv(addr *net.UDPAddr, rawdata []byte, remote string, harmonyList D
 	qnameStr := strings.ToLower(question.QNAMEToString())
 	log.Debugf("Get new package with ID 0x%04x", header.ID)
 	log.Trace("Get new query package for " + qnameStr + " from " + addr.String())
-	if utils.BytesToUInt16(question.QTYPE) != uint16(1) || harmonyList == nil || harmonyList[qnameStr] == "" {
-		log.Debugf("Forward request for %s to %s.", qnameStr, remote)
-		return ForwardRequest(rawdata, remote) // A "harmonic" domain name.
-	}
 	if harmonyList[qnameStr] == "0.0.0.0" {
 		log.Warn("Illegal domain name: ", qnameStr)
 		header := Header{
@@ -75,6 +71,9 @@ func LocalResolv(addr *net.UDPAddr, rawdata []byte, remote string, harmonyList D
 		}
 
 		return append(header.toBytes(), question.toBytes()...)
+	} else if utils.BytesToUInt16(question.QTYPE) != uint16(1) || harmonyList == nil || harmonyList[qnameStr] == "" {
+		log.Debugf("Forward request for %s to %s.", qnameStr, remote)
+		return ForwardRequest(rawdata, remote) // A "harmonic" domain name.
 	} else {
 		log.Debugf("Redirect request for %s to %s.", qnameStr, harmonyList[qnameStr])
 		response := Response{
