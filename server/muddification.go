@@ -76,7 +76,7 @@ func LocalResolv(addr *net.UDPAddr, rawdata []byte, remote string, harmonyList D
 
 		return append(header.toBytes(), question.toBytes()...)
 	} else {
-		log.Debug("Redirect request for %s to %s.", qnameStr, harmonyList[qnameStr])
+		log.Debugf("Redirect request for %s to %s.", qnameStr, harmonyList[qnameStr])
 		response := Response{
 			HEADER: Header{
 				ID:           header.ID,
